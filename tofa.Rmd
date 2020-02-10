@@ -1,0 +1,105 @@
+---
+title: "Tofacitinib Pooled Analysis"
+author: "Nathan Constantine-Cooke"
+date: '`r Sys.Date()`'
+output:
+   html_document:
+     code_folding: hide
+     toc: true
+     toc_float:
+       collapsed: true
+---
+
+## Introduction
+
+This document provides a short exploration into the feasibility of carrying out
+a pooled analysis of the efficacy and safety of tofacitinib in the present day.
+
+```{r setup, message=F}
+library(meta)
+library(metafor)
+```
+
+## Efficacy
+
+Data from 10 papers was used for the analysis of the efficacy of tofacitinib. 
+
+```{r}
+efficacy <- read.csv("efficacy.csv")
+knitr::kable(efficacy)
+```
+
+``rem8``, the number of patients who had entered clinical remission either 8 or
+12 weeks after starting tofacitinib, was used for this exploration. To reduce
+heterogeneity, only UC patients were used. Due to the small sample size, a
+logit transformation was applied. 
+
+```{r}
+ies.efficacy <- escalc(xi = rem8, ni = UC, measure = "PLO", data = efficacy)
+```
+
+A random effects model was fitted using the DerSimonian and Laird method.
+Testing for heterogenity gave a highly signifcant p-value (p < 0.0001).
+
+```{r, warning=F}
+efficacy.pes.logit <- rma(yi, vi, data = ies.efficacy, method = "DL")
+print(efficacy.pes.logit)
+```
+
+$\tau^2$ was estimated to be 0.2860 (95% confidence interval 0.1208, 1.5796).
+$I^2$ was estimated to be 0.8185 (95% confidence interval 0.6557, 0.9614). 
+
+```{r}
+confint(efficacy.pes.logit)
+```
+
+Transforming the results back to the original scale results in a prediction of
+the percentage of patients who entered clinical remission at weeks 8 or 12 to be
+34.82% (95% CI 26.46%, 44.22%)
+
+```{r}
+efficacy.pes <- predict(efficacy.pes.logit, transf = transf.ilogit)
+print(efficacy.pes)
+```
+
+
+## Safety
+
+Data from 12 papers was used for the analysis of the safety of tofacitinib.
+
+```{r}
+safety <- read.csv("safety.csv")
+knitr::kable(safety)
+```
+
+``AE``, the number of patients who had an adverse event during the study, was 
+used for this exploration. To reduce heterogeneity, only UC patients were used.
+Due to the small sample sizes, a logit transformation was applied. 
+
+```{r}
+ies.safety <- escalc(xi = AE, ni = ni, measure = "PLO", data = safety)
+```
+
+A random effects model was fitted using the DerSimonian and Laird method.
+Testing for heterogenity gave a highly signifcant p-value (p < 0.0001).
+
+```{r}
+safety.pes.logit <- rma(yi, vi, data = ies.safety, method = "DL")
+print(safety.pes.logit)
+```
+
+$\tau^2$ was estimated to be 0.3165 (95% confidence interval 0.1077, 2.1381).
+$I^2$ was estimated to be 0.8306 (95% confidence interval 0.6252, 0.9707). 
+
+```{r}
+confint(safety.pes.logit)
+```
+
+Transforming the results back to the original scale results in a prediction of
+the proportion of patients who had an adverse event to be 21.33% (95% CI 14.60%,
+30.07%)
+
+```{r}
+safety.pes <- predict(safety.pes.logit, transf = transf.ilogit)
+print(safety.pes)
+```
