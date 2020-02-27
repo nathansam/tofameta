@@ -68,20 +68,14 @@ print(efficacy.pes)
 pes.summary <- metaprop(round(rem8), UC, AuthorYear, data = efficacy,
                         sm = "PLO", method.tau="DL", method.ci="NAsm" )
 forest(pes.summary,
-rightcols=FALSE,
-leftcols=c("studlab", "event", "n", "effect", "ci"),
-leftlabs=c("Study", "Cases", "Total", "Proportion", "95% C.I."),
-xlab="Prop. in Clinical Remission at wk8", smlab="",
-weight.study="random", squaresize=0.5, col.square="navy",
-col.square.lines="navy",
-col.diamond="maroon", col.diamond.lines="maroon",pooled.totals=FALSE,
-comb.fixed=FALSE,
-fs.hetstat=10,
-print.tau2=TRUE,
-print.Q=TRUE,
-print.pval.Q=TRUE,
-print.I2=TRUE,
-digits=2)
+rightcols = FALSE,
+leftcols = c("studlab", "event", "n", "effect", "ci"),
+leftlabs = c("Study", "Cases", "Total", "Proportion", "95% C.I."),
+xlab = "Prop. in Clinical Remission at wk8", smlab="",
+weight.study = "random", squaresize=0.5, col.square="navy",
+col.square.lines = "navy", col.diamond = "maroon", col.diamond.lines = "maroon",
+pooled.totals = FALSE, comb.fixed = FALSE, fs.hetstat = 10, print.tau2 = TRUE,
+print.Q = TRUE, print.pval.Q = TRUE, print.I2 = TRUE, digits = 2)
 ```
 
 ## Safety
