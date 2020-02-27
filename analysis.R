@@ -9,31 +9,31 @@ efficacy$AuthorYear <- paste(as.vector(efficacy$Author),
 result.eff <- MetaAnalysis(cases = rem8, total = ni,
                         authorYear = AuthorYear, data = efficacy,
                         xlab = "Prop. in Clinical Remission at Wk8", 
-                        dir = "Plots")
+                        dir = "all_patients")
 
 result.eff <- rbind(result.eff,
                  MetaAnalysis(cases = rem24, total = ni,
                                authorYear = AuthorYear, data = efficacy,
                                xlab = "Prop. in Clinical Remission at Wk24", 
-                               dir = "Plots"))
+                               dir = "all_patients"))
 
  result.eff <- rbind(result.eff,
                   MetaAnalysis(cases = sfrem24, total = ni,
                                authorYear = AuthorYear, data = efficacy,
                                xlab = "Prop in Steroid-Free Clinical Remission at Wk24", 
-                               dir = "Plots"))
+                               dir = "all_patients"))
 
 result.eff <- rbind(result.eff,
                  MetaAnalysis(cases = endorem, total = ni,
                               authorYear = AuthorYear, data = efficacy,
                               xlab = "Prop. in Endoscopic Remission", 
-                              dir = "Plots"))
+                              dir = "all_patients"))
 
 result.eff <- rbind(result.eff,
                  MetaAnalysis(cases = discont, total = ni,
                               authorYear = AuthorYear, data = efficacy,
                               xlab = "Prop. Discontinued Treatment", 
-                              dir = "Plots"))
+                              dir = "all_patients"))
 result.eff <- round(result.eff, 4)
 write.csv(result.eff, file = "results.efficacy.csv")
 
@@ -46,20 +46,61 @@ safety$AuthorYear <- paste(as.vector(safety$Author),
 result.saf <- MetaAnalysis(cases = AE, total = ni,
                            authorYear = AuthorYear, data = safety,
                            xlab = "Prop. who had an Adverse Event", 
-                           dir = "Plots")
+                           dir = "all_patients")
+
+
+result.saf <- rbind(result.saf,
+                    MetaAnalysis(cases = PNR, total = ni,
+                                 authorYear = AuthorYear, data = safety,
+                                 xlab = "Prop. with primary non-response", 
+                                 dir = "all_patients"))
+
+result.saf <- rbind(result.saf,
+                    MetaAnalysis(cases = HZ, total = ni,
+                                 authorYear = AuthorYear, data = safety,
+                                 xlab = "Prop. who developed Herpes zoster", 
+                                 dir = "all_patients"))
+                    
+result.saf <- rbind(result.saf,
+                    MetaAnalysis(cases = Dislipidemia, total = ni,
+                                 authorYear = AuthorYear, data = safety,
+                                 xlab = "Prop. who developed Dislipidemia", 
+                                 dir = "all_patients"))
 
 result.saf <- rbind(result.saf, 
-                    result.saf <- MetaAnalysis(cases = Infection, total = ni,
-                                               authorYear = AuthorYear,
-                                               data = safety,
-                                               xlab = "Prop. who had an Infection", 
-                                               dir = "Plots"))
+                    MetaAnalysis(cases = Infection, total = ni,
+                                 authorYear = AuthorYear, data = safety,
+                                 xlab = "Prop. who had an Infection", 
+                                 dir = "all_patients"))
 
 result.saf <- rbind(result.saf, 
-                    result.saf <- MetaAnalysis(cases = Colectomy, total = ni,
+                    MetaAnalysis(cases = Colectomy, total = ni,
                                                authorYear = AuthorYear,
                                                data = safety,
                                                xlab = "Prop. who had a Colectomy", 
-                                               dir = "Plots"))
+                                               dir = "all_patients"))
 result.saf <- round(result.saf, 4)
 write.csv(result.saf, file = "results.safety.csv")
+
+
+week8cases <- efficacy[is.na(efficacy[, "wk8Tot"])==FALSE,]
+result.dropout <- MetaAnalysis(cases = rem8, total = ni,
+                               authorYear = AuthorYear, data = week8cases,
+                               xlab = "Prop. in Clinical Remission at Wk8", 
+                               dir = "nondropout_patients")
+
+week24cases <- efficacy[is.na(efficacy[, "wk24Tot"])==FALSE,]
+result.dropout <- rbind(result.dropout,
+                        MetaAnalysis(cases = rem24, total = ni,
+                                     authorYear = AuthorYear,
+                                     data = week24cases,
+                                     xlab = "Prop. in Clinical Remission at Wk24",
+                                     dir = "nondropout_patients"))
+
+result.dropout <- rbind(result.dropout,
+                        MetaAnalysis(cases = sfrem24, total = ni,
+                                     authorYear = AuthorYear,
+                                     data = week24cases,
+                                     xlab = "Prop. in steroid-free clinical Remission at Wk24",
+                                     dir = "nondropout_patients"))
+write.csv(result.dropout, file = "results.dropout.csv")

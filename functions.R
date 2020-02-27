@@ -1,5 +1,5 @@
-MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir){
-  
+MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir,
+                         mods = NULL) {
   if(dir.exists(dir) == F) dir.create(dir)
   
   outcome <- deparse(substitute(cases))
@@ -7,12 +7,18 @@ MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir){
   cases <- round(eval(substitute(cases), data, parent.frame()))
   total <- round(eval(substitute(total), data, parent.frame()))
   authorYear <- eval(substitute(authorYear), data, parent.frame())
-
+  
   # Logit transfromation
   ies <- metafor::escalc(xi = cases, ni = total, measure = "PLO")
   # Random effects model fitted using the DerSimonian and Laird
   pes.logit <- metafor::rma(yi, vi, data = ies, method = "DL")
-  
+
+  # Outlier plots
+  inf <- influence(pes.logit)
+  png(file <-  paste(dir, "/", outcome, "_outliers.png", sep = ""),
+      width = 600)
+  plot(inf)
+  dev.off()
   
   values <- confint(pes.logit)$random
   tau2 <- matrix(values[1, ], nrow = 1) # tau^2 pred + CI values
@@ -20,7 +26,6 @@ MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir){
   
   I2 <- matrix(values[3, ], nrow = 1) # I^2 pred + CI values
   colnames(I2) <- c("I2", "I2.lb", "I2.up")
-  
   
   # Inverse logit transformation
   pes <- predict(pes.logit, transf = transf.ilogit)
@@ -32,11 +37,11 @@ MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir){
   result <- cbind(tau2, I2, pred)
   rownames(result) <- outcome
   
-  #### Plots ####
+  #### Forest plots ####
   
   pes.summary <- meta::metaprop(round(cases), total, authorYear,
                                 sm = "PLO", method.tau="DL", method.ci="NAsm")
-  
+  xlim <- (max(ceiling(pes.summary$upper[is.na(pes.summary$upper) == F] / 0.2)) * 0.2) 
   
   png(file = paste(dir, "/", outcome, ".png", sep = ""), width = 600)
   
@@ -50,7 +55,7 @@ MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir){
                col.diamond = "maroon", col.diamond.lines = "maroon",
                pooled.totals = FALSE, comb.fixed = FALSE, fs.hetstat = 10,
                print.tau2 = TRUE, print.Q = TRUE, print.pval.Q = TRUE,
-               print.I2 = TRUE, digits = 2)
+               print.I2 = TRUE, digits = 2, xlim = c(0, xlim))
   dev.off()
   
   svg(file = paste(dir, "/", outcome, ".svg", sep = ""), width = 8)
@@ -64,7 +69,7 @@ MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir){
                col.diamond = "maroon", col.diamond.lines = "maroon",
                pooled.totals = FALSE, comb.fixed = FALSE, fs.hetstat = 10,
                print.tau2 = TRUE, print.Q = TRUE, print.pval.Q = TRUE,
-               print.I2 = TRUE, digits=2)
+               print.I2 = TRUE, digits = 2, xlim = c(0, xlim))
   dev.off()
   return(result)
 }
