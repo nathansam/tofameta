@@ -1,13 +1,13 @@
-﻿Year,Author,ni,Followup,AE ,HZ, Infection,MACE,Dislipidemia,Leukopenia,malignancy,Colectomy,Hospitalisation,PNR,LOR
-2019,Weisshof R ,58,,,1,13,,3,,,3,,,
-2018,Weisshof R ,23,43,,0,2,,2,,,14,,,
-2019,Yarur A ,140,10.7,19,5,,,9,2,,16,,,
-2018,Kindra D ,48,,15,2,7,1,,,,,5,,
+﻿Year,Author,ni,Followup,AE,HZ,Infection,MACE,Dislipidemia,Leukopenia,malignancy,Colectomy,Hospitalisation,PNR,LOR
+2019,"Weisshof R ",58,,,1,12,,3,,,3,,,
+2018,"Weisshof R ",23,43,,0,2,,2,,,,,,
+2019,"Yarur A ",140,10.7,19,5,,,9,2,,16,,,
+2018,"Kindra D ",48,,15,2,9,1,,,,,5,,
 2019,Lair-Mehiri L,38,41.5,14,3,9,,3,,,10,,4,
-2019,Deepack,140,10,12,19,5,,,,2,,,14,
-2020,Lakatos PL ,40,24,,,1,,,,,,,,
-2020,Chaparro M ,113,44,18,2,3,0,5,1,1,,,,21
-2020,Biemans VB ,111,24,36,4,0,0,,,,5,14,,
-2020,Verstock B ,35,15.9,,1,1,,,,,9,,16,
-2020,Cremer,70,16,,1,,,,,,,,,
+2020,Xiao Y,40,24,,,1,,,,,,,,
+2020,"Chaparro M ",113,44,18,2,3,0,5,1,1,,,,21
+2020,"Biemans VB ",111,24,36,4,0,0,,,,5,14,,
+2020,"Verstock B ",35,15.9,,2,1,,,,,9,,17,
+2020,Cremer,70,16,,1,,0,,,,,,,
 2020,Chee D,140,12,33,2,6,0,1,2,1,5,7,32,9
+2020,Rutka M,16,,,,,,,,,,,4,
