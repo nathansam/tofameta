@@ -1,8 +1,10 @@
 MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir,
                          mods = NULL) {
+  
+  # Create directory if it doesn't already exist
   if(dir.exists(dir) == F) dir.create(dir)
   
-  outcome <- deparse(substitute(cases))
+  outcome <- deparse(substitute(cases)) # used for row name of result
   
   cases <- round(eval(substitute(cases), data, parent.frame()))
   total <- round(eval(substitute(total), data, parent.frame()))
@@ -13,7 +15,7 @@ MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir,
   # Random effects model fitted using the DerSimonian and Laird
   pes.logit <- metafor::rma(yi, vi, data = ies, method = "DL")
 
-  # Outlier plots
+  # Outlier plot
   inf <- influence(pes.logit)
   png(file <-  paste(dir, "/", outcome, "_outliers.png", sep = ""),
       width = 600)
@@ -37,14 +39,16 @@ MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir,
   result <- cbind(tau2, I2, pred)
   rownames(result) <- outcome
   
-  #### Forest plots ####
+  #### Forest plot ####
   
   pes.summary <- meta::metaprop(round(cases), total, authorYear,
                                 sm = "PLO", method.tau="DL", method.ci="NAsm")
+  
+  # xlim larger than maximum CI value and a multiple of 0.2.
   xlim <- (max(ceiling(pes.summary$upper[is.na(pes.summary$upper) == F] / 0.2)) * 0.2) 
   
-  png(file = paste(dir, "/", outcome, ".png", sep = ""), width = 600)
   
+  png(file = paste(dir, "/", outcome, ".png", sep = ""), width = 600)
   meta::forest(pes.summary,
                rightcols = FALSE,
                leftcols = c("studlab", "event", "n", "effect", "ci"),
@@ -58,8 +62,8 @@ MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir,
                print.I2 = TRUE, digits = 2, xlim = c(0, xlim))
   dev.off()
   
+  # Same plot again but saved in vector format. 
   svg(file = paste(dir, "/", outcome, ".svg", sep = ""), width = 8)
-  
   meta::forest(pes.summary, rightcols = FALSE,
                leftcols = c("studlab", "event", "n", "effect", "ci"),
                leftlabs = c("Study", "Cases", "Total", "Proportion",
