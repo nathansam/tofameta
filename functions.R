@@ -1,3 +1,9 @@
+################################################################################
+### R script for  the MetaAnalysis function used in Lucaciu et al.'s pooled  ###
+### analysis of tofacitinib efficacy & safety. Script written by Nathan      ###
+### Constantine-Cooke https://github.com/nathansam                           ###
+################################################################################
+
 MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir,
                          mods = NULL) {
   
@@ -63,7 +69,7 @@ MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir,
   dev.off()
   
   # Same plot again but saved in vector format. 
-  svg(file = paste(dir, "/", outcome, ".svg", sep = ""), width = 8)
+  pdf(file = paste(dir, "/", outcome, ".pdf", sep = ""), width = 8)
   meta::forest(pes.summary, rightcols = FALSE,
                leftcols = c("studlab", "event", "n", "effect", "ci"),
                leftlabs = c("Study", "Cases", "Total", "Proportion",
