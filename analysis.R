@@ -1,5 +1,5 @@
 ################################################################################
-### R script for Lucaciu et al.'s pooled analysis of Tofacitinib efficacy &  ###
+### R script for Lucaciu et al.'s pooled analysis of tofacitinib efficacy &  ###
 ### safety.  Script written by Nathan Constantine-Cooke                      ###
 ### https://github.com/nathansam                                             ###
 ################################################################################
@@ -7,9 +7,12 @@
 # Load the MetaAnalysis function
 source("functions.R")
 
+# If meta and/or metafor packages not installed then install them 
+packages <- c("meta", "metafor")
+Npackages <- packages[!(packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(Npackages)
 
-require(meta)
-require(metafor)
+library(meta); library(metafor)
 
 # Load table of efficacy results. 
 efficacy <- read.csv("efficacy.csv")
@@ -34,29 +37,29 @@ safety$AuthorYear <- paste(as.vector(safety$Author),
 
 ################################### Efficacy ###################################
 
-# Clinical remission at week 8
-result.eff <- MetaAnalysis(cases = rem8, total = ni,
+# Clinical remission at induction
+result.eff <- MetaAnalysis(cases = earlyRem, total = ni,
                         authorYear = AuthorYear, data = efficacy,
-                        xlab = "Prop. in Clinical Remission at Wk8", 
+                        xlab = "Prop. in Clinical Remission at Induction", 
                         dir = "all_patients")
 
-# Clinical remission at week 24
+# clinical remission at maintenance
 result.eff <- rbind(result.eff,
-                 MetaAnalysis(cases = rem24, total = ni,
+                 MetaAnalysis(cases = lateRem, total = ni,
                                authorYear = AuthorYear, data = efficacy,
-                               xlab = "Prop. in Clinical Remission at Wk24", 
+                               xlab = "Prop. in Clinical Remission at Maintenance", 
                                dir = "all_patients"))
 
-# Steroid-free clinical remission at week 24
+# Steroid-free clinical remission at maintenance.
 result.eff <- rbind(result.eff,
-                    MetaAnalysis(cases = sfrem24, total = ni,
+                    MetaAnalysis(cases = lateSFrem, total = ni,
                                  authorYear = AuthorYear, data = efficacy,
-                                 xlab = "Prop in Steroid-Free Clinical Remission at Wk24", 
+                                 xlab = "Prop in Steroid-Free Clinical Remission at Maintenance", 
                                  dir = "all_patients"))
 
 # Endoscopic remission
 result.eff <- rbind(result.eff,
-                 MetaAnalysis(cases = endorem, total = ni,
+                 MetaAnalysis(cases = endorem, total = endoTot,
                               authorYear = AuthorYear, data = efficacy,
                               xlab = "Prop. in Endoscopic Remission", 
                               dir = "all_patients"))
@@ -67,22 +70,57 @@ result.eff <- rbind(result.eff,
                               xlab = "Prop. Discontinued Treatment", 
                               dir = "all_patients"))
 
-# Clinical response at week 8
+# Clinical response during induction
 result.eff <- rbind(result.eff,
-                    MetaAnalysis(cases = resp8, total = ni,
+                    MetaAnalysis(cases = earlyResp, total = ni,
                                  authorYear = AuthorYear, data = efficacy,
-                                 xlab = "Prop. with Clinical Response at Wk8", 
+                                 xlab = "Prop. with Clinical Response at Induction", 
                                  dir = "all_patients"))
 
-# Clinical response at week 24
+# Clinical response during Maintenance
 result.eff <- rbind(result.eff,
-                    MetaAnalysis(cases = resp24, total = ni,
+                    MetaAnalysis(cases = lateResp, total = ni,
                                  authorYear = AuthorYear, data = efficacy,
-                                 xlab = "Prop. with Clinical Response at Wk24", 
+                                 xlab = "Prop. with Clinical Response at Maintenance", 
                                  dir = "all_patients"))
+
+############################### Treatment Discont. #############################
+
+result.eff <- rbind(result.eff,
+                    MetaAnalysis(cases = discontAE, total = discont,
+                                 authorYear = AuthorYear, data = efficacy,
+                                 xlab = "Prop. Discontinued Treatment due to AE", 
+                                 dir = "all_patients"))
+
+result.eff <- rbind(result.eff,
+                    MetaAnalysis(cases = discontColectomy, total = discont,
+                                 authorYear = AuthorYear, data = efficacy,
+                                 xlab = "Prop. Discontinued Treatment due to Colectomy", 
+                                 dir = "all_patients"))
+result.eff <- rbind(result.eff,
+                    MetaAnalysis(cases = discontPNR, total = discont,
+                                 authorYear = AuthorYear, data = efficacy,
+                                 xlab = "Prop. Discontinued Treatment due to PNR", 
+                                 dir = "all_patients"))
+
+result.eff <- rbind(result.eff,
+                    MetaAnalysis(cases = discontLOR, total = discont,
+                                 authorYear = AuthorYear, data = efficacy,
+                                 xlab = "Prop. Discontinued Treatment due to LOR", 
+                                 dir = "all_patients"))
+
+result.eff <- rbind(result.eff,
+                    MetaAnalysis(cases = discontPatient, total = discont,
+                                 authorYear = AuthorYear, data = efficacy,
+                                 xlab = "Prop. Discontinued Treatment due to Patient Choice", 
+                                 dir = "all_patients"))
+
 
 # Save tau^2, I^2 & predictions with confidence intervals to a csv file
 result.eff <- round(result.eff, 4)
+
+
+
 write.csv(result.eff, file = "results.efficacy.csv")
 
 
@@ -97,25 +135,31 @@ result.saf <- MetaAnalysis(cases = AE, total = ni,
 result.saf <- rbind(result.saf,
                     MetaAnalysis(cases = PNR, total = ni,
                                  authorYear = AuthorYear, data = safety,
-                                 xlab = "Prop. with primary non-response", 
+                                 xlab = "Prop. with Primary Non-Response", 
                                  dir = "all_patients"))
 
 result.saf <- rbind(result.saf,
                     MetaAnalysis(cases = HZ, total = ni,
                                  authorYear = AuthorYear, data = safety,
-                                 xlab = "Prop. who developed Herpes zoster", 
+                                 xlab = "Prop. who Developed Herpes Zoster", 
                                  dir = "all_patients"))
                     
 result.saf <- rbind(result.saf,
-                    MetaAnalysis(cases = Dislipidemia, total = ni,
+                    MetaAnalysis(cases = Dyslipidemia, total = ni,
                                  authorYear = AuthorYear, data = safety,
-                                 xlab = "Prop. who developed Dislipidemia", 
+                                 xlab = "Prop. who Developed Dyslipidaemia", 
                                  dir = "all_patients"))
 
 result.saf <- rbind(result.saf, 
-                    MetaAnalysis(cases = Infection, total = ni,
+                    MetaAnalysis(cases = InfectionM, total = ni,
                                  authorYear = AuthorYear, data = safety,
-                                 xlab = "Prop. who had an Infection", 
+                                 xlab = "Prop. who had a Mild Infection", 
+                                 dir = "all_patients"))
+
+result.saf <- rbind(result.saf, 
+                    MetaAnalysis(cases = InfectionS, total = ni,
+                                 authorYear = AuthorYear, data = safety,
+                                 xlab = "Prop. who had a Serious Infection", 
                                  dir = "all_patients"))
 
 result.saf <- rbind(result.saf, 
@@ -133,38 +177,38 @@ write.csv(result.saf, file = "results.safety.csv")
 ################################################################################
 
 # This takes the maximum number of people for which an outcome can occur to be
-# the number of patients who haven't dropped out of the trial for the time of
-# the event. Only efficacy is investigated. 
+# the number of patients who haven't dropped out of the trial by the exoected
+# time of the event. Only efficacy is investigated. 
 
 
-week8cases <- efficacy[is.na(efficacy[, "wk8Tot"])==FALSE,]
-result.dropout <- MetaAnalysis(cases = rem8, total = ni,
-                               authorYear = AuthorYear, data = week8cases,
-                               xlab = "Prop. in Clinical Remission at Wk8", 
+earlyCases <- efficacy[is.na(efficacy[, "earlyTot"])==FALSE,]
+result.dropout <- MetaAnalysis(cases = earlyRem, total = ni,
+                               authorYear = AuthorYear, data = earlyCases,
+                               xlab = "Prop. in Clinical Remission at Induction", 
                                dir = "nondropout_patients")
 result.dropout <- rbind(result.dropout,
-                        MetaAnalysis(cases = resp8, total = ni,
-                                     authorYear = AuthorYear, data = week8cases,
-                                     xlab = "Prop. with Clinical Response at Wk8", 
+                        MetaAnalysis(cases = earlyResp, total = ni,
+                                     authorYear = AuthorYear, data = earlyCases,
+                                     xlab = "Prop. with Clinical Response at Induction", 
                                      dir = "nondropout_patients"))
 
-week24cases <- efficacy[is.na(efficacy[, "wk24Tot"])==FALSE,]
+lateCases<- efficacy[is.na(efficacy[, "lateTot"])==FALSE,]
 result.dropout <- rbind(result.dropout,
-                        MetaAnalysis(cases = rem24, total = ni,
+                        MetaAnalysis(cases = lateRem, total = ni,
                                      authorYear = AuthorYear,
-                                     data = week24cases,
-                                     xlab = "Prop. in Clinical Remission at Wk24",
+                                     data = lateCases,
+                                     xlab = "Prop. in Clinical Remission at Maintenance",
                                      dir = "nondropout_patients"))
 result.dropout <- rbind(result.dropout,
-                        MetaAnalysis(cases = resp24, total = ni,
-                                     authorYear = AuthorYear, data = week8cases,
-                                     xlab = "Prop. with Clinical Response at Wk24", 
+                        MetaAnalysis(cases = lateResp, total = ni,
+                                     authorYear = AuthorYear, data = lateCases,
+                                     xlab = "Prop. with Clinical Response at Maintenance", 
                                      dir = "nondropout_patients"))
 
 result.dropout <- rbind(result.dropout,
-                        MetaAnalysis(cases = sfrem24, total = ni,
+                        MetaAnalysis(cases = lateSFrem, total = ni,
                                      authorYear = AuthorYear,
-                                     data = week24cases,
-                                     xlab = "Prop. in steroid-free clinical Remission at Wk24",
+                                     data = lateCases,
+                                     xlab = "Prop. in Late Steroid-Free Clinical Remission",
                                      dir = "nondropout_patients"))
 write.csv(result.dropout, file = "results.dropout.csv")
