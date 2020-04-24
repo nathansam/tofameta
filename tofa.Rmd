@@ -31,13 +31,13 @@ efficacy$AuthorYear <- paste(as.vector(efficacy$Author),
 knitr::kable(efficacy)
 ```
 
-``rem8``, the number of patients who had entered clinical remission either 8 or
-12 weeks after starting tofacitinib, was used for this exploration. To reduce
+``earlyRem``, the number of patients who had entered clinical remission during 
+induction was used for this exploration. To reduce
 heterogeneity, only UC patients were used. Due to the small sample size, a
 logit transformation was applied. 
 
 ```{r}
-ies.efficacy <- escalc(xi = rem8, ni = UC, measure = "PLO", data = efficacy)
+ies.efficacy <- escalc(xi = earlyRem, ni = UC, measure = "PLO", data = efficacy)
 ```
 
 A random effects model was fitted using the DerSimonian and Laird method.
@@ -48,16 +48,16 @@ efficacy.pes.logit <- rma(yi, vi, data = ies.efficacy, method = "DL")
 print(efficacy.pes.logit)
 ```
 
-$\tau^2$ was estimated to be 0.2860 (95% confidence interval 0.1208, 1.5796).
-$I^2$ was estimated to be 0.8185 (95% confidence interval 0.6557, 0.9614). 
+$\tau^2$ was estimated to be 0.3538 (95% confidence interval 0.1413, 1.7129).
+$I^2$ was estimated to be 0.8475 (95% confidence interval 0.6894, 0.9641). 
 
 ```{r}
 confint(efficacy.pes.logit)
 ```
 
 Transforming the results back to the original scale results in a prediction of
-the percentage of patients who entered clinical remission at weeks 8 or 12 to be
-34.82% (95% CI 26.46%, 44.22%)
+the percentage of patients who entered clinical remission during induction to be
+35.47% (95% CI 26.3%, 45.85%)
 
 ```{r}
 efficacy.pes <- predict(efficacy.pes.logit, transf = transf.ilogit)
@@ -65,13 +65,13 @@ print(efficacy.pes)
 ```
 
 ```{r, fig.width=8}
-pes.summary <- metaprop(round(rem8), UC, AuthorYear, data = efficacy,
+pes.summary <- metaprop(round(earlyRem), UC, AuthorYear, data = efficacy,
                         sm = "PLO", method.tau="DL", method.ci="NAsm" )
 forest(pes.summary,
 rightcols = FALSE,
 leftcols = c("studlab", "event", "n", "effect", "ci"),
 leftlabs = c("Study", "Cases", "Total", "Proportion", "95% C.I."),
-xlab = "Prop. in Clinical Remission at wk8", smlab="",
+xlab = "Prop. in Clinical Remission during induction", smlab="",
 weight.study = "random", squaresize=0.5, col.square="navy",
 col.square.lines = "navy", col.diamond = "maroon", col.diamond.lines = "maroon",
 pooled.totals = FALSE, comb.fixed = FALSE, fs.hetstat = 10, print.tau2 = TRUE,
@@ -80,7 +80,7 @@ print.Q = TRUE, print.pval.Q = TRUE, print.I2 = TRUE, digits = 2)
 
 ## Safety
 
-Data from 12 papers was used for the analysis of the safety of tofacitinib.
+Data from 10 papers was used for the analysis of the safety of tofacitinib.
 
 ```{r}
 safety <- read.csv("safety.csv")
@@ -103,16 +103,16 @@ safety.pes.logit <- rma(yi, vi, data = ies.safety, method = "DL")
 print(safety.pes.logit)
 ```
 
-$\tau^2$ was estimated to be 0.3165 (95% confidence interval 0.1077, 2.1381).
-$I^2$ was estimated to be 0.8306 (95% confidence interval 0.6252, 0.9707). 
+$\tau^2$ was estimated to be 0.4249 (95% confidence interval 0.0911, 3.4462).
+$I^2$ was estimated to be 0.8682 (95% confidence interval 0.5853, 0.9816). 
 
 ```{r}
 confint(safety.pes.logit)
 ```
 
 Transforming the results back to the original scale results in a prediction of
-the proportion of patients who had an adverse event to be 21.33% (95% CI 14.60%,
-30.07%)
+the proportion of patients who had an adverse event to be 25.65% (95% CI 15.68%,
+39.02%)
 
 ```{r}
 safety.pes <- predict(safety.pes.logit, transf = transf.ilogit)
