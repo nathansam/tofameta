@@ -20,7 +20,7 @@ efficacy and safety respectively. Metadata for these files can be found below.
 ### Efficacy
 
 * `Year`: Year study was published
-* `Author`: Lead author of study
+* `Author`: First author of study
 * `ni`: Participants in the study
 * `UC`: Participants with ulcerative colitis.
 * `earlyResp`: Clinical response during the induction phase
@@ -30,7 +30,6 @@ efficacy and safety respectively. Metadata for these files can be found below.
 * `earlySFrem`: Steroid free clinical remission during the induction phase
 * `lateSFrem24`: Steroid free clinical remission during the maintenance phase
 * `endorem`: Endoscopic remission at any time point
-* `discont`: treatment discontinuation at any time point
 * `CD`: Participants with Crohn's disease
 * `IBDU`: Participants with inflammatory bowel disease unclassified
 * `earlyTot`: Participants in study during induction phase
@@ -40,11 +39,7 @@ efficacy and safety respectively. Metadata for these files can be found below.
 * `uste`: Ustekinumab medication prior to joining study
 * `noBio`: No biological medication prior to joining study (bio naive)
 * `endoTot`: Participants who underwent endoscopy
-* `discontAE`: Treatment discontinued due to adverse event
-* `discontColectomy`: Treatment discontinued due to colectomy
-* `discontPNR`: Treatment discontinued due to primary non-response
-* `discontLOR`: Treatment discontinued due to loss of response
-* `discontPatient`: Treatment discontinued due to primary non-response
+* `age`: Median age of patients in the study
 
 ### Safety
 
@@ -54,7 +49,6 @@ efficacy and safety respectively. Metadata for these files can be found below.
 * `Followup`: median followup for the study
 * `AE`: Experienced an adverse event
 * `HZ`: Developed herpes zoster
-* `MACE`: Experienced major adverse cardiovascular event
 * `Dyslipidemia`: Developed dyslipidemia
 * `malignancy`: Development of malignancy
 * `Colectomy`: Underwent colectomy
@@ -62,6 +56,9 @@ efficacy and safety respectively. Metadata for these files can be found below.
 * `LOR` Loss of response
 * `InfectionM`: Mild/moderate infection
 * `InfectionS`: Severe infection
-
-* ``Followup``: “median followup for the study”
-* ``AE``: “adverse effect”
+* `discont`: Treatment discontinuation at any time point
+* `discontAE`: Treatment discontinued due to adverse event
+* `discontColectomy`: Treatment discontinued due to colectomy
+* `discontPNR`: Treatment discontinued due to primary non-response
+* `discontLOR`: Treatment discontinued due to loss of response
+* `discontPatient`: Treatment discontinued due to primary non-response
