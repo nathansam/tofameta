@@ -63,7 +63,7 @@ MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir,
                xlab = xlab, smlab = "", weight.study = "random",
                squaresize = 0.5, col.square = "navy", col.square.lines = "navy",
                col.diamond = "maroon", col.diamond.lines = "maroon",
-               pooled.totals = FALSE, comb.fixed = FALSE, fs.hetstat = 10,
+               pooled.totals = FALSE, comb.fixed = FALSE, fs.hetstat = 12,
                print.tau2 = TRUE, print.Q = TRUE, print.pval.Q = TRUE,
                print.I2 = TRUE, digits = 2, xlim = c(0, xlim))
   dev.off()
@@ -77,7 +77,7 @@ MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir,
                xlab = xlab, smlab = "", weight.study = "random",
                squaresize = 0.5, col.square = "navy", col.square.lines = "navy",
                col.diamond = "maroon", col.diamond.lines = "maroon",
-               pooled.totals = FALSE, comb.fixed = FALSE, fs.hetstat = 10,
+               pooled.totals = FALSE, comb.fixed = FALSE, fs.hetstat = 12,
                print.tau2 = TRUE, print.Q = TRUE, print.pval.Q = TRUE,
                print.I2 = TRUE, digits = 2, xlim = c(0, xlim))
   dev.off()
