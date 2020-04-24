@@ -10,7 +10,7 @@ source("functions.R")
 # If meta and/or metafor packages not installed then install them 
 packages <- c("meta", "metafor")
 Npackages <- packages[!(packages %in% installed.packages()[,"Package"])]
-if(length(new.packages)) install.packages(Npackages)
+if(length(Npackages)) install.packages(Npackages)
 
 library(meta); library(metafor)
 
