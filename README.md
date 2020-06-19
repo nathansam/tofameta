@@ -2,9 +2,14 @@
 
 ## Introduction
 
-R scripts/ data for Lucaciu's et al. pooled analysis of tofacitinib efficacy &
-safety. The scripts have been written by Nathan Constantine-Cooke
-https://github.com/nathansam and are licensed under the MIT license.
+R scripts/ data for Lucaciu & Constantine-Cooke et al. pooled analysis of
+tofacitinib efficacy & safety. The scripts have been written by Nathan
+Constantine-Cooke https://github.com/nathansam and are licensed under the MIT
+license.
+
+### R scripts
+
+R scripts can be found in the `R/` directory.
 
 `analysis.R` is the primary R script for performing the analysis.
 
@@ -12,10 +17,16 @@ https://github.com/nathansam and are licensed under the MIT license.
 This file does not need to be loaded separately, as the script will be run by
 `analysis.R`
 
+### Data
+
+Data can be found in the `data/` directory
+
 `efficacy.csv` and `safety.csv` contain the data used for the pooled analysis of
 efficacy and safety respectively. Metadata for these files can be found below.
 
 ## Metadata
+
+Descriptions of each of the columns stratified by data file. 
 
 ### Efficacy
 

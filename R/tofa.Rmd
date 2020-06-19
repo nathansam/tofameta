@@ -25,7 +25,7 @@ library(metafor)
 Data from 10 papers was used for the analysis of the efficacy of tofacitinib. 
 
 ```{r}
-efficacy <- read.csv("efficacy.csv")
+efficacy <- read.csv("../data/efficacy.csv")
 efficacy$AuthorYear <- paste(as.vector(efficacy$Author),
                              as.character(efficacy$Year))
 knitr::kable(efficacy)
@@ -67,15 +67,26 @@ print(efficacy.pes)
 ```{r, fig.width=8}
 pes.summary <- metaprop(round(earlyRem), UC, AuthorYear, data = efficacy,
                         sm = "PLO", method.tau="DL", method.ci="NAsm" )
-forest(pes.summary,
-rightcols = FALSE,
-leftcols = c("studlab", "event", "n", "effect", "ci"),
-leftlabs = c("Study", "Cases", "Total", "Proportion", "95% C.I."),
-xlab = "Prop. in Clinical Remission during induction", smlab="",
-weight.study = "random", squaresize=0.5, col.square="navy",
-col.square.lines = "navy", col.diamond = "maroon", col.diamond.lines = "maroon",
-pooled.totals = FALSE, comb.fixed = FALSE, fs.hetstat = 10, print.tau2 = TRUE,
-print.Q = TRUE, print.pval.Q = TRUE, print.I2 = TRUE, digits = 2)
+meta::forest(pes.summary,
+             rightcols = FALSE,
+             leftcols = c("studlab", "event", "n", "effect", "ci"),
+             leftlabs = c("Study", "Cases", "Total", "Proportion", "95% C.I."),
+             xlab = "Prop. in Clinical Remission during induction",
+             smlab = "",
+             weight.study = "random",
+             squaresize = 0.5,
+             col.square = "navy",
+             col.square.lines = "navy",
+             col.diamond = "maroon",
+             col.diamond.lines = "maroon",
+             pooled.totals = FALSE,
+             comb.fixed = FALSE,
+             fs.hetstat = 10,
+             print.tau2 = TRUE,
+             print.Q = TRUE,
+             print.pval.Q = TRUE,
+             print.I2 = TRUE,
+             digits = 2)
 ```
 
 ## Safety
@@ -83,7 +94,7 @@ print.Q = TRUE, print.pval.Q = TRUE, print.I2 = TRUE, digits = 2)
 Data from 10 papers was used for the analysis of the safety of tofacitinib.
 
 ```{r}
-safety <- read.csv("safety.csv")
+safety <- read.csv("../data/safety.csv")
 knitr::kable(safety)
 ```
 

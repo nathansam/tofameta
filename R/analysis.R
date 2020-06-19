@@ -9,7 +9,7 @@
 if(dir.exists("output") == FALSE) dir.create("output")
 
 # Load the MetaAnalysis function
-source("functions.R")
+source("R/functions.R")
 
 # If meta and/or metafor packages not installed then install them 
 packages <- c("meta", "metafor")
@@ -20,7 +20,7 @@ library(meta)
 library(metafor)
 
 # Load table of efficacy results. 
-efficacy <- read.csv("efficacy.csv")
+efficacy <- read.csv("data/efficacy.csv")
 
 
 # Add column which combines Author name and year (used for forest plots)
@@ -28,7 +28,7 @@ efficacy$AuthorYear <- paste(as.vector(efficacy$Author),
                              as.character(efficacy$Year))
 
 # Load table of safety results
-safety <- read.csv("safety.csv")
+safety <- read.csv("data/safety.csv")
 safety$AuthorYear <- paste(as.vector(safety$Author),
                            as.character(safety$Year))
 
