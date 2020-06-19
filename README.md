@@ -2,8 +2,9 @@
 
 ## Introduction
 
-R scripts/ data for Lucaciu & Constantine-Cooke et al. pooled analysis of
-tofacitinib efficacy & safety. The scripts have been written by Nathan
+R scripts/ data for Lucaciu & Constantine-Cooke et al. *Real-world experience
+with tofacitinib in ulcerative colitis - a systematic review and meta-analysis
+of observational studies*. The scripts have been written by Nathan
 Constantine-Cooke https://github.com/nathansam and are licensed under the MIT
 license.
 
