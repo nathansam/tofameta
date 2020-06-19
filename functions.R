@@ -10,13 +10,22 @@
 MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir,
                          mods = NULL) {
   
+  outcome <- deparse(substitute(cases)) #outcome name as string"
+  
   # Create directory if it doesn't already exist
-  if(dir.exists(dir) == F) dir.create(dir)
+  if(dir.exists(dir) == FALSE) dir.create(dir)
   
-  outcome <- deparse(substitute(cases)) # used for row name of result
+  subdir <- paste(dir, "/", outcome, sep = "")
+  if(dir.exists(subdir) == FALSE) dir.create(subdir)
   
+  pdf.dir <- paste(subdir, "/pdf", sep = "")
+  if(dir.exists(pdf.dir) == FALSE) dir.create(pdf.dir)
+  
+  png.dir <- paste(subdir, "/png", sep = "")
+  if(dir.exists(png.dir) == FALSE) dir.create(png.dir)
+ 
   cases <- round(eval(substitute(cases), data, parent.frame()))
-  non.NA <- is.na(cases) == F
+  non.NA <- is.na(cases) == FALSE
   cases <- cases[non.NA]
   total <- round(eval(substitute(total), data, parent.frame()))
   total <- total[non.NA]
@@ -30,9 +39,50 @@ MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir,
 
   # Outlier plot
   inf <- influence(pes.logit)
-  png(file <-  paste(dir, "/", outcome, "_outliers.png", sep = ""),
+  png(file <-  paste(png.dir, "/", outcome, "_outliers.png", sep = ""),
       width = 600)
   plot(inf)
+  dev.off()
+  
+  pdf(file <-  paste(pdf.dir, "/", outcome, "_outliers.pdf", sep = ""),
+      width = 8)
+  plot(inf)
+  dev.off()
+  
+  # Funnel plot
+  png(file <-  paste(png.dir, "/", outcome, "_funnel.png", sep = ""),
+      width = 600)
+  funnel(pes.logit)
+  title(main = paste("Funnel plot of", outcome))
+  egger.pval <- round(regtest(pes.logit)$pval, 3) 
+  if (egger.pval < 0.05){
+    plot.col <- "red"
+  }  else{
+    plot.col <- "black"
+  } 
+  legend("topright",
+         paste("p =", egger.pval),
+         bty="n",
+         text.col = plot.col,
+         cex = 1.2) 
+  dev.off()
+  
+  pdf(file <-  paste(pdf.dir, "/", outcome, "_funnel.pdf", sep = ""),
+      width = 8)
+  funnel(pes.logit)
+  title(main = paste("Funnel plot of", outcome))
+  egger.pval <- round(regtest(pes.logit)$pval, 3) 
+  
+  if (egger.pval < 0.05){
+    plot.col <- "red"
+  }  else{
+    plot.col <- "black"
+  } 
+  legend("topright",
+         paste("p =", egger.pval),
+         bty="n",
+         text.col = plot.col,
+         cex = 1.2) 
   dev.off()
   
   values <- confint(pes.logit)$random
@@ -53,7 +103,7 @@ MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir,
   pred <- matrix(c(pes$pred, pes$ci.lb, pes$ci.ub), nrow = 1)
   colnames(pred) <- c("prop", "prop.lb", "prop.ub")
   
-  result <- cbind(tau2, I2, pred)
+  result <- cbind(tau2, I2, pred, egger.pval)
   rownames(result) <- outcome
   
   #### Forest plot ####
@@ -66,11 +116,10 @@ MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir,
                                 method.ci="NAsm")
   
   # xlim larger than maximum CI value and a multiple of 0.2.
-  xlim <- (max(ceiling(pes.summary$upper[is.na(pes.summary$upper) ==
-                                           F] / 0.2)) * 0.2) 
+  xlim <- (max(ceiling(pes.summary$upper[is.na(pes.summary$upper) == F] / 0.2)) * 0.2) 
   
   
-  png(file = paste(dir, "/", outcome, ".png", sep = ""), width = 600)
+  png(file = paste(png.dir, "/", outcome, ".png", sep = ""), width = 600)
   meta::forest(pes.summary,
                rightcols = FALSE,
                leftcols = c("studlab", "event", "n", "effect", "ci"),
@@ -99,7 +148,7 @@ MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir,
   dev.off()
   
   # Same plot again but saved in vector format. 
-  pdf(file = paste(dir, "/", outcome, ".pdf", sep = ""), width = 8)
+  pdf(file = paste(pdf.dir, "/", outcome, ".pdf", sep = ""), width = 8)
   meta::forest(pes.summary, rightcols = FALSE,
                leftcols = c("studlab", "event", "n", "effect", "ci"),
                leftlabs = c("Study",
