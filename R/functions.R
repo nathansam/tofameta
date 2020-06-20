@@ -7,8 +7,7 @@
 ### https://github.com/nathansam                                             ###
 ################################################################################
 
-MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir,
-                         mods = NULL) {
+MetaAnalysis <- function(cases, total, authorYear, data, xlab, dir) {
   
   outcome <- deparse(substitute(cases)) #outcome name as string"
   
