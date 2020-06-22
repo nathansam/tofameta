@@ -43,22 +43,26 @@ safety$AuthorYear <- paste(as.vector(safety$Author),
 ################################### Efficacy ###################################
 
 # Clinical remission at induction
-defn <- "Proportion in clinical remission at Induction"
+defn <- "Proportion in clinical remission at induction"
+outcome <- "clinical remission at induction"
 result.eff <- MetaAnalysis(cases = earlyRem,
                            total = ni,
                            authorYear = AuthorYear,
                            data = efficacy,
-                           xlab = defn, 
+                           xlab = defn,
+                           funnel.outcome = outcome,
                            dir = "output/all_patients/")
 
 # clinical remission at maintenance
 defn <- "Proportion in clinical remission at maintenance"
+outcome <- "clinical remission at maintenance"
 result.eff <- rbind(result.eff,
                     MetaAnalysis(cases = lateRem,
                                  total = ni,
                                  authorYear = AuthorYear,
                                  data = efficacy,
                                  xlab = defn, 
+                                 funnel.outcome = outcome,
                                  dir = "output/all_patients/"))
 
 # Steroid-free clinical remission at maintenance
@@ -84,22 +88,26 @@ result.eff <- rbind(result.eff,
 
 # Clinical response during induction
 defn <- "Proportion with clinical response at induction"
+outcome <- "clinical response at induction"
 result.eff <- rbind(result.eff,
                     MetaAnalysis(cases = earlyResp,
                                  total = ni,
                                  authorYear = AuthorYear,
                                  data = efficacy,
                                  xlab = defn, 
+                                 funnel.outcome = outcome, 
                                  dir = "output/all_patients/"))
 
 # Clinical response during Maintenance
 defn <- "Proportion with clinical response at maintenance"
+outcome <- "clinical response at maintenance"
 result.eff <- rbind(result.eff,
                     MetaAnalysis(cases = lateResp,
                                  total = ni,
                                  authorYear = AuthorYear,
                                  data = efficacy,
                                  xlab = defn, 
+                                 funnel.outcome = outcome,
                                  dir = "output/all_patients/"))
 
 # Save tau^2, I^2 & predictions with confidence intervals to a csv file
@@ -292,7 +300,7 @@ write.csv(result.dropout,
 
 full.papers.efficacy <- efficacy[c(6, 10, 3, 1), ]
 
-defn <- "Proportion in clinical remission at Induction"
+defn <- "Proportion in clinical remission at induction"
 result.eff.full <- MetaAnalysis(cases = earlyRem,
                                 total = ni,
                                 authorYear = AuthorYear,
@@ -312,7 +320,7 @@ result.eff.full <- rbind(result.eff.full,
 
 # Steroid-free clinical remission at maintenance
 defn <- "Proportion in steroid-free clinical remission at maintenance"
-result.eff.full <- rbind(result.eff,
+result.eff.full <- rbind(result.eff.full,
                          MetaAnalysis(cases = lateSFrem,
                                       total = ni,
                                       authorYear = AuthorYear,
@@ -322,7 +330,7 @@ result.eff.full <- rbind(result.eff,
 
 # Endoscopic remission
 defn <- "Proportion in endoscopic remission"
-result.eff.full <- rbind(result.eff,
+result.eff.full <- rbind(result.eff.full,
                          MetaAnalysis(cases = endorem,
                                       total = endoTot,
                                       authorYear = AuthorYear,
@@ -332,7 +340,7 @@ result.eff.full <- rbind(result.eff,
 
 # Clinical response during induction
 defn <- "Proportion with clinical response at induction"
-result.eff.full <- rbind(result.eff,
+result.eff.full <- rbind(result.eff.full,
                          MetaAnalysis(cases = earlyResp,
                                       total = ni,
                                       authorYear = AuthorYear,
@@ -342,7 +350,7 @@ result.eff.full <- rbind(result.eff,
 
 # Clinical response during Maintenance
 defn <- "Proportion with clinical response at maintenance"
-result.eff.full <- rbind(result.eff,
+result.eff.full <- rbind(result.eff.full,
                          MetaAnalysis(cases = lateResp,
                                       total = ni,
                                       authorYear = AuthorYear,
@@ -358,9 +366,6 @@ write.csv(result.eff.full,
 #################################### Safety ####################################
 
 full.papers.safety <- safety[c(1, 4, 7, 10), ]
-
-defn <- "Proportion had an adverse event"
-
 
 
 defn <- "Proportion discontinued treatment"
@@ -451,8 +456,6 @@ result.saf.full <- rbind(result.saf.full,
                                       data = full.papers.safety,
                                       xlab = defn, 
                                       dir = "output/full_papers/"))
-
-
 
 result.saf.full <- round(result.saf.full, 4)
 write.csv(result.saf.full, file = "output/full_papers/results.safety.csv")
