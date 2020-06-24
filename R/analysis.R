@@ -323,16 +323,6 @@ result.eff.full <- rbind(result.eff.full,
                                       xlab = defn,
                                       dir = "output/full_papers/"))
 
-# Endoscopic remission
-defn <- "Proportion in endoscopic remission"
-result.eff.full <- rbind(result.eff.full,
-                         MetaAnalysis(cases = endorem,
-                                      total = endoTot,
-                                      authorYear = AuthorYear,
-                                      data = full.papers.efficacy,
-                                      xlab = defn,
-                                      dir = "output/full_papers/"))
-
 # Clinical response during induction
 defn <- "Proportion with clinical response at induction"
 result.eff.full <- rbind(result.eff.full,
