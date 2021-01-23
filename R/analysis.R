@@ -33,7 +33,7 @@ safety$AuthorYear <- paste(as.vector(safety$Author),
 
 # This takes the maximum number of people for which an outcome can occur to be
 # the number of patients in the trial. (not the patients which haven't dropped
-# out )
+# out)
 
 ################################### Efficacy ###################################
 
@@ -176,6 +176,16 @@ result.saf <- rbind(result.saf,
                                  xlab = defn,
                                  dir = "output/all_patients/"))
 
+defn <- "Proportion developed VTE"
+result.saf <- rbind(result.saf,
+                    MetaAnalysis(cases = VTE,
+                                 total = ni,
+                                 authorYear = AuthorYear,
+                                 data = safety,
+                                 xlab = defn,
+                                 dir = "output/all_patients/"))
+
+
 defn <- "Proportion had a colectomy"
 result.saf <- rbind(result.saf,
                     MetaAnalysis(cases = Colectomy,
@@ -289,11 +299,11 @@ write.csv(result.dropout,
 ################################# Full papers ##################################
 ################################################################################
 
-# This only uses the 4 full papers and is intended for sensitivity analysis
+# This only uses the full papers (not abstracts)
 
 ################################### Efficacy ###################################
 
-full.papers.efficacy <- efficacy[c(6, 10, 3, 1), ]
+full.papers.efficacy <- efficacy[c(1, 3, 5, 6, 10, 11, 12, 13), ]
 
 defn <- "Proportion in clinical remission at induction"
 result.eff.full <- MetaAnalysis(cases = earlyRem,
@@ -307,6 +317,17 @@ result.eff.full <- MetaAnalysis(cases = earlyRem,
 defn <- "Proportion in clinical remission at maintenance"
 result.eff.full <- rbind(result.eff.full,
                          MetaAnalysis(cases = lateRem,
+                                      total = ni,
+                                      authorYear = AuthorYear,
+                                      data = full.papers.efficacy,
+                                      xlab = defn,
+                                      dir = "output/full_papers/"))
+
+
+# Steroid-free clinical remission at induction
+defn <- "Proportion in steroid-free clinical remission at induction"
+result.eff.full <- rbind(result.eff.full,
+                         MetaAnalysis(cases = earlySFrem,
                                       total = ni,
                                       authorYear = AuthorYear,
                                       data = full.papers.efficacy,
@@ -350,7 +371,7 @@ write.csv(result.eff.full,
 
 #################################### Safety ####################################
 
-full.papers.safety <- safety[c(1, 4, 7, 10), ]
+full.papers.safety <- safety[c(1, 2, 4, 5, 8, 10, 11, 12, 13), ]
 
 
 defn <- "Proportion discontinued treatment"
@@ -360,6 +381,14 @@ result.saf.full <- MetaAnalysis(cases = discont,
                                       data = full.papers.safety,
                                       xlab = defn,
                                       dir = "output/full_papers/")
+
+defn <- "Proportion had an adverse event"
+result.saf <- MetaAnalysis(cases = AE,
+                           total = ni,
+                           authorYear = AuthorYear,
+                           data = full.papers.safety,
+                           xlab = defn,
+                           dir = "output/full_papers/")
 
 defn <- "Proportion with primary non-response"
 result.saf.full <- rbind(result.saf.full,
