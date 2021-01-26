@@ -364,6 +364,15 @@ result.eff.full <- rbind(result.eff.full,
                                       xlab = defn,
                                       dir = "output/full_papers/"))
 
+defn <- "Proportion in endoscopic remission"
+result.eff.full <- rbind(result.eff,
+                         MetaAnalysis(cases = endorem,
+                                      total = ni,
+                                      authorYear = AuthorYear,
+                                      data = full.papers.efficacy,
+                                      xlab = defn,
+                                      dir = "output/full_papers/"))
+
 # Save tau^2, I^2 & predictions with confidence intervals to a csv file
 result.eff.full <- round(result.eff.full, 4)
 write.csv(result.eff.full,

@@ -1,4 +1,4 @@
-FROM rocker/r-base:4.0.0
+FROM rocker/r-base:4.0.3
 
 RUN mkdir analysis
 
