@@ -392,7 +392,7 @@ result.saf.full <- MetaAnalysis(cases = discont,
                                       dir = "output/full_papers/")
 
 defn <- "Proportion had an adverse event"
-result.saf <- MetaAnalysis(cases = AE,
+result.saf.full <- MetaAnalysis(cases = AE,
                            total = ni,
                            authorYear = AuthorYear,
                            data = full.papers.safety,
