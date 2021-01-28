@@ -367,7 +367,7 @@ result.eff.full <- rbind(result.eff.full,
 defn <- "Proportion in endoscopic remission"
 result.eff.full <- rbind(result.eff,
                          MetaAnalysis(cases = endorem,
-                                      total = ni,
+                                      total = endoTot,
                                       authorYear = AuthorYear,
                                       data = full.papers.efficacy,
                                       xlab = defn,
