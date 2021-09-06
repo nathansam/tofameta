@@ -13,7 +13,7 @@
 
 ## Introduction
 
-R scripts/ data for Lucaciu & Constantine-Cooke et al. *Real-world experience
+R scripts/data for Lucaciu & Constantine-Cooke et al. *Real-world experience
 with tofacitinib in ulcerative colitis - a systematic review and meta-analysis
 of observational studies*. The scripts have been written by [Nathan
 Constantine-Cooke](https://github.com/nathansam) and are licensed under the [MIT
@@ -25,13 +25,13 @@ R scripts can be found in the `R/` directory.
 
 `analysis.R` is the primary R script for performing the analysis.
 
-`functions.R` contains the MetaAnalysis function used to perform the analysis.
-This file does not need to be loaded separately, as the script will be sourced by
-`analysis.R`
+`functions.R` contains the `MetaAnalysis` function used to perform the analysis.
+This file does not need to be loaded separately, as this function will be loaded
+when `analysis.R` is run.
 
 ### Data
 
-Data can be found in the `data/` directory
+The data used for this analysis can be found in the `data/` directory.
 
 `efficacy.csv` and `safety.csv` contain the data used for the pooled analysis of
 efficacy and safety respectively. Metadata for these files can be found below
@@ -43,8 +43,9 @@ Assuming [R](https://cloud.r-project.org) is already installed, this analysis
 can be run either conventionally (using the `Rscript` terminal
 command or Rstudio IDE), or via a Docker container. The former is easier to use
 and more conventional to those familiar to R, whilst the latter is optimal for
-reproducibility. Docker uses an image of the environment used to produce the analysis and will , in theory,
-reproduce the same output many years into the future.
+reproducibility. Docker uses an image of the environment used to produce the
+analysis and will , in theory, reproduce the same output many years into the future
+regardless of changes to operating systems or the R programming language.
 
 ### Conventional approach
 
@@ -122,19 +123,19 @@ This section provides descriptions of each of the columns in each data file.
 - `vedo`: Vedolizumab medication prior to joining study
 - `uste`: Ustekinumab medication prior to joining study
 - `noBio`: No biological medication prior to joining study (bio naive)
-- `endoTot`: Participants who underwent endoscopy
+- `endoTot`: Underwent endoscopy
 - `age`: Median age of patients in the study
 
 ### Safety
 
 - `Year`: Year study was published
-- `Author`: Lead author of study
+- `Author`: First author of study
 - `ni`: Participants in the study
-- `Followup`: median followup for the study
+- `Followup`: Median followup for the study
 - `AE`: Experienced an adverse event
 - `HZ`: Developed herpes zoster
 - `Dyslipidemia`: Developed dyslipidemia
-- `malignancy`: Development of malignancy
+- `malignancy`: Developed malignancy
 - `Colectomy`: Underwent colectomy
 - `PNR` Primary non-response
 - `LOR` Loss of response
