@@ -61,7 +61,7 @@ You can now find the generated plots and csv files in the `output/` folder
 within the `tofameta/` directory.
 
 For those adverse to using git, you may prefer to download the source code from
-the [releases page](https://github.com/nathansam/tfameta/releases), unzip the
+the [releases page](https://github.com/nathansam/tofameta/releases), unzip the
 source code and then run the `analysis.R` script in the `R/` folder. Please note
 that your working directory will need to be the top-level directory of
 `tofameta`.
