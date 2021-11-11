@@ -79,11 +79,11 @@ below script with a path to where you wish the output to be saved.
 
 ``` bash
 # Pull image
-docker pull docker.pkg.github.com/nathansam/tofameta/tofameta:1.0.0
+docker pull ghcr.io/nathansam/tofameta/tofameta:v1.0
 # Rename to a nicer tag
-docker tag docker.pkg.github.com/nathansam/tofameta/tofameta:1.0.0 nathansam/tofameta
+docker tag ghcr.io/nathansam/tofameta/tofameta:v1.0 nathansam/tofameta
 # Delete the old tag
-docker rmi docker.pkg.github.com/nathansam/tofameta/tofameta:1.0.0
+docker rmi ghcr.io/nathansam/tofameta/tofameta:v1.0
 # Run the docker image
 docker run -v <OutputDirectory>:/analysis/output nathansam/tofameta
 ```
@@ -91,7 +91,7 @@ docker run -v <OutputDirectory>:/analysis/output nathansam/tofameta
 Replacing \<OutputDirectory\> with the path to a directory you wish to store the
 output from the script in (such as `~/output`).
 
-If you wish to delete the image (around 1.25GB in size) after the analysis has
+If you wish to delete the image (around 1.09GB in size) after the analysis has
 finished then run
 
 ``` bash
