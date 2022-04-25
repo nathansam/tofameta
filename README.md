@@ -1,5 +1,9 @@
 # Tofameta
 
+
+![R logo](https://img.shields.io/badge/R-276DC3?style=for-the-badge&logo=r&logoColor=white)
+[![Docker badge](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)](https://github.com/nathansam?tab=packages&repo_name=tofameta)
+
 - [Tofameta](#tofameta)
   - [Introduction](#introduction)
     - [R scripts](#r-scripts)
